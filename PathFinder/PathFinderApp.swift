@@ -12,6 +12,7 @@ struct PathFinderApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
