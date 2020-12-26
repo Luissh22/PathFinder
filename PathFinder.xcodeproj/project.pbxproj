@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A08B0344259577B5003C7B32 /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B0343259577B5003C7B32 /* PathFinder.swift */; };
+		A08B034925967B14003C7B32 /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B034825967B14003C7B32 /* Heap.swift */; };
 		A0D00BBF25950DEE003BC217 /* PathFinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */; };
 		A0D00BC125950DEE003BC217 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D00BC025950DEE003BC217 /* ContentView.swift */; };
 		A0D00BC325950DF0003BC217 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D00BC225950DF0003BC217 /* Assets.xcassets */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A08B0343259577B5003C7B32 /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
+		A08B034825967B14003C7B32 /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		A0D00BBB25950DEE003BC217 /* PathFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PathFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinderApp.swift; sourceTree = "<group>"; };
 		A0D00BC025950DEE003BC217 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +46,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A08B0342259577A2003C7B32 /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				A08B0343259577B5003C7B32 /* PathFinder.swift */,
+			);
+			path = Algorithms;
+			sourceTree = "<group>";
+		};
+		A08B034725967B07003C7B32 /* Data Structures */ = {
+			isa = PBXGroup;
+			children = (
+				A08B034825967B14003C7B32 /* Heap.swift */,
+			);
+			path = "Data Structures";
+			sourceTree = "<group>";
+		};
 		A0D00BB225950DEE003BC217 = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +81,8 @@
 		A0D00BBD25950DEE003BC217 /* PathFinder */ = {
 			isa = PBXGroup;
 			children = (
+				A08B034725967B07003C7B32 /* Data Structures */,
+				A08B0342259577A2003C7B32 /* Algorithms */,
 				A0D00BD62595100F003BC217 /* Models */,
 				A0D00BCF25950E93003BC217 /* Views */,
 				A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */,
@@ -171,9 +193,11 @@
 				A0D00BC125950DEE003BC217 /* ContentView.swift in Sources */,
 				A0D00BD125950E9E003BC217 /* GridView.swift in Sources */,
 				A0D00BD825951023003BC217 /* GridItem.swift in Sources */,
+				A08B034925967B14003C7B32 /* Heap.swift in Sources */,
 				A0D00BD425950EA7003BC217 /* ToolBarView.swift in Sources */,
 				A0D00BBF25950DEE003BC217 /* PathFinderApp.swift in Sources */,
 				A0D00BDB2595102A003BC217 /* Grid.swift in Sources */,
+				A08B0344259577B5003C7B32 /* PathFinder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

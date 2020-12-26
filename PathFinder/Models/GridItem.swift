@@ -8,10 +8,13 @@
 import Foundation
 
 struct GridItem: Equatable {
+    
+    static let defaultCost = -1
+    
     var row: Int
     var col: Int
     var isWall = false
-    var cost = -1
+    var cost = defaultCost
     
     init(row: Int, col: Int) {
         self.row = row
