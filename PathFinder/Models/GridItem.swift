@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GridItem: Equatable {
+class GridItem {
     
     static let defaultCost = -1
     
@@ -21,8 +21,16 @@ struct GridItem: Equatable {
         self.col = col
     }
     
+}
+
+extension GridItem: Equatable {
     static func ==(lhs: GridItem, rhs: GridItem) -> Bool {
         lhs.row == rhs.row && lhs.col == rhs.col
     }
-    
+}
+
+extension GridItem: Comparable {
+    static func < (lhs: GridItem, rhs: GridItem) -> Bool {
+        lhs.cost < rhs.cost
+    }
 }

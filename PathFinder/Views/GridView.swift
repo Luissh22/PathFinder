@@ -28,11 +28,12 @@ struct GridView: View {
                             let gridItem = grid.gridItems[row][col]
                             
                             ZStack {
-                                Rectangle()
+                                RoundedRectangle(cornerRadius: 10)
                                     .fill(grid.color(for: gridItem))
                                     .border(Color.black)
                                 if !gridItem.isWall {
                                     Text("\(gridItem.cost)")
+                                        .foregroundColor(textColor(for: gridItem))
                                 }
                             }
                             .frame(width: gridItemSize, height: gridItemSize)
@@ -44,15 +45,24 @@ struct GridView: View {
         }
     }
     
+    private func textColor(for item: GridItem) -> Color {
+        if grid.color(for: item) == .white {
+            return .black
+        }
+        
+        return .primary
+    }
+    
     private var toolbarButtons: [ButtonConfig] {
         [
-            ButtonConfig(label: "Find Route", action: {}),
-            ButtonConfig(label: "Clear Route", action: {}),
+            ButtonConfig(label: "Find Route", action: grid.route),
+            ButtonConfig(label: "Clear Route", action: grid.clear),
             ButtonConfig(label: "Clear Walls") {
                 withAnimation {
                     grid.clearWalls()
                 }
-            }
+            },
+            ButtonConfig(label: "Randomize Walls", action: grid.randomizeWalls)
         ]
     }
     

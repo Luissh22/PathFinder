@@ -77,10 +77,6 @@ class Heap<T: Comparable> {
         items.swapAt(indexOne, indexTwo)
     }
     
-    var isEmpty: Bool {
-        items.isEmpty
-    }
-    
     private func hasHigherPriority(indexOne: Int, indexTwo: Int) -> Bool {
         sortCriteria(items[indexOne], items[indexTwo])
     }
@@ -98,38 +94,6 @@ class Heap<T: Comparable> {
     private func highestPriorityIndex(for parentIndex: Int) -> Int {
         let highestPriorityIndexParentAndLeftChild = highestPriorityIndex(of: parentIndex, and: leftChildIndex(of: parentIndex))
         return highestPriorityIndex(of: highestPriorityIndexParentAndLeftChild, and: rightChildIndex(of: parentIndex))
-    }
-    
-    func peek() throws -> T {
-        guard let item = items.first else {
-            throw HeapError.emptyHeap
-        }
-        
-        return item
-    }
-    
-    func pop() throws -> T {
-        guard !isEmpty else { throw HeapError.emptyHeap }
-        
-        // Replace first item with last item in heap
-        swap(0, size - 1)
-        let item = items.removeLast()
-        
-        if !isEmpty {
-            // Shift item down to correct spot
-            shiftDown(from: 0)
-        }
-        
-        return item
-    }
-    
-    func insert(_ item: T) {
-        items.append(item)
-        shiftUp(from: size - 1)
-    }
-    
-    func insert(_ items: [T]) {
-        items.forEach { insert($0) }
     }
     
     private func shiftDown(from index: Int) {
@@ -158,4 +122,53 @@ class Heap<T: Comparable> {
         
         shiftUp(from: parentIdx)
     }
+}
+
+// Public methods
+extension Heap {
+    
+    func insert(_ item: T) {
+        items.append(item)
+        shiftUp(from: size - 1)
+    }
+    
+    func insert(_ items: [T]) {
+        items.forEach { insert($0) }
+    }
+    
+    func peek() throws -> T {
+        guard let item = items.first else {
+            throw HeapError.emptyHeap
+        }
+        
+        return item
+    }
+    
+    func pop() throws -> T {
+        guard !isEmpty else { throw HeapError.emptyHeap }
+        
+        // Replace first item with last item in heap
+        swap(0, size - 1)
+        let item = items.removeLast()
+        
+        if !isEmpty {
+            // Shift item down to correct spot
+            shiftDown(from: 0)
+        }
+        
+        return item
+    }
+
+    func contains(_ item: T) -> Bool {
+        items.contains(item)
+    }
+    
+    var isEmpty: Bool {
+        items.isEmpty
+    }
+    
+    func removeAll() {
+        items.removeAll()
+    }
+    
 }

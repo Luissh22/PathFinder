@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A08B0344259577B5003C7B32 /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B0343259577B5003C7B32 /* PathFinder.swift */; };
 		A08B034925967B14003C7B32 /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B034825967B14003C7B32 /* Heap.swift */; };
 		A0D00BBF25950DEE003BC217 /* PathFinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */; };
 		A0D00BC125950DEE003BC217 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D00BC025950DEE003BC217 /* ContentView.swift */; };
@@ -20,7 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A08B0343259577B5003C7B32 /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		A08B034825967B14003C7B32 /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		A0D00BBB25950DEE003BC217 /* PathFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PathFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinderApp.swift; sourceTree = "<group>"; };
@@ -49,7 +47,6 @@
 		A08B0342259577A2003C7B32 /* Algorithms */ = {
 			isa = PBXGroup;
 			children = (
-				A08B0343259577B5003C7B32 /* PathFinder.swift */,
 			);
 			path = Algorithms;
 			sourceTree = "<group>";
@@ -197,7 +194,6 @@
 				A0D00BD425950EA7003BC217 /* ToolBarView.swift in Sources */,
 				A0D00BBF25950DEE003BC217 /* PathFinderApp.swift in Sources */,
 				A0D00BDB2595102A003BC217 /* Grid.swift in Sources */,
-				A08B0344259577B5003C7B32 /* PathFinder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
