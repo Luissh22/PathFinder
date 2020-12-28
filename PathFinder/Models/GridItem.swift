@@ -15,6 +15,7 @@ class GridItem {
     var col: Int
     var isWall = false
     var cost = Int.random(in: 1...5)
+    var priority = 0
 //    var cost = defaultCost
     init(row: Int, col: Int) {
         self.row = row
@@ -42,5 +43,6 @@ extension GridItem: Hashable {
         hasher.combine(isWall)
         hasher.combine(cost)
         hasher.combine(id)
+        hasher.combine(priority)
     }
 }

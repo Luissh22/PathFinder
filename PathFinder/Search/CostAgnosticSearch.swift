@@ -25,7 +25,7 @@ class CostAgnosticSearch: PathFinder {
         self.queuedItems = Queue(queueType: searchType == SearchType.breadthFirstSearch ? .fifo : .lifo)
     }
     
-    func findNextItems(given currentItem: GridItem, and itemsToCheck: [GridItem]) {
+    func findNextItems(given currentItem: GridItem, and itemsToCheck: [GridItem], goal: GridItem) {
         for itemToCheck in itemsToCheck {
             guard !itemToCheck.isWall else { continue }
         

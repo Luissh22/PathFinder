@@ -21,6 +21,10 @@ class PathFinderFactory {
             return CostAgnosticSearch(searchType: .depthFirstSearch)
         case .Dijkstras:
             return Dijkstra()
+        case .AStar:
+            return AStarSearch()
+        case .GreedyBestFirstSearch:
+            return GreedyBestFirstSearch()
         default:
             throw PathFinderFactoryError.unknownAlgorithm(algorithm)
         }

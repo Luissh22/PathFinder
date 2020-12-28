@@ -12,6 +12,7 @@ enum Algorithm {
     case DepthFirstSearch
     case Dijkstras
     case AStar
+    case GreedyBestFirstSearch
     
     var label: String {
         switch self {
@@ -23,6 +24,8 @@ enum Algorithm {
             return "Depth First Search"
         case .Dijkstras:
             return "Dijkstra's Algorithm"
+        case .GreedyBestFirstSearch:
+            return "Greedy Best First Search"
         }
     }
 }
@@ -34,7 +37,7 @@ protocol PathFinder {
     var cameFrom: [GridItem: GridItem] { get set }
     var costSoFar: [GridItem: Int] { get set }
     
-    func findNextItems(given currentItem: GridItem, and itemsToCheck: [GridItem])
+    func findNextItems(given currentItem: GridItem, and itemsToCheck: [GridItem], goal: GridItem)
     
     func shouldCheckItem(_ item: GridItem, fromCurrentItem currentItem: GridItem, potentialCost: Int) -> Bool
     
@@ -69,5 +72,9 @@ extension PathFinder {
         }
         
         return true
+    }
+    
+    func shouldCheckItem(_ item: GridItem, fromCurrentItem currentItem: GridItem, potentialCost: Int) -> Bool {
+        costSoFar[item] == nil || potentialCost < costSoFar[item] ?? 0
     }
 }

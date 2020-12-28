@@ -80,6 +80,16 @@ struct GridView: View {
     private var menuButtons: [ButtonConfig] {
         
         [
+            ButtonConfig(label: Algorithm.AStar.label, action: {
+                grid.clear()
+                grid.setPathFinder(for: .AStar)
+                menuLabel = Algorithm.AStar.label
+            }),
+            ButtonConfig(label: Algorithm.GreedyBestFirstSearch.label, action: {
+                grid.clear()
+                grid.setPathFinder(for: .GreedyBestFirstSearch)
+                menuLabel = Algorithm.GreedyBestFirstSearch.label
+            }),
             ButtonConfig(label: Algorithm.Dijkstras.label, action: {
                 grid.clear()
                 grid.setPathFinder(for: .Dijkstras)
@@ -94,12 +104,7 @@ struct GridView: View {
                 grid.clear()
                 grid.setPathFinder(for: .DepthFirstSearch)
                 menuLabel = Algorithm.DepthFirstSearch.label
-            }),
-            ButtonConfig(label: Algorithm.AStar.label, action: {
-                grid.clear()
-                grid.setPathFinder(for: .AStar)
-                menuLabel = Algorithm.AStar.label
-            }),
+            })
         ]
     }
     

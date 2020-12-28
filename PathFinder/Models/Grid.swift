@@ -241,7 +241,7 @@ extension Grid {
             
             let itemsToCheck = neighbours(for: item)
         
-            pathFinder.findNextItems(given: item, and: itemsToCheck)
+            pathFinder.findNextItems(given: item, and: itemsToCheck, goal: end)
             
             if pathFinder.queuedItems.isEmpty {
                 // we're done searching for items
