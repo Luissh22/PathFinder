@@ -7,21 +7,17 @@
 
 import Foundation
 
-enum HeapError: Error {
-    case emptyHeap
-}
-
-class Heap<T: Comparable> {
+class PriorityQueue: Collection {
     
-    private var items: [T]
-    private let sortCriteria: (T, T) -> Bool
+    private var items: [GridItem]
+    private let sortCriteria: (GridItem, GridItem) -> Bool
     
-    init(sortCriteria: @escaping (T, T) -> Bool) {
+    init(sortCriteria: @escaping (GridItem, GridItem) -> Bool) {
         self.sortCriteria = sortCriteria
         items = []
     }
     
-    private var size: Int {
+    var size: Int {
         items.count
     }
     
@@ -54,19 +50,19 @@ class Heap<T: Comparable> {
         return parentIndex(of: index) >= 0
     }
     
-    private func leftChild(of index: Int) -> T? {
+    private func leftChild(of index: Int) -> GridItem? {
         guard hasLeftChild(index) else { return nil }
         
         return items[leftChildIndex(of: index)]
     }
     
-    private func rightChild(of index: Int) -> T? {
+    private func rightChild(of index: Int) -> GridItem? {
         guard hasRightChild(index) else { return nil }
         
         return items[rightChildIndex(of: index)]
     }
     
-    private func parent(of index: Int) -> T? {
+    private func parent(of index: Int) -> GridItem? {
         guard hasParent(index) else { return nil }
         
         return items[parentIndex(of: index)]
@@ -125,27 +121,27 @@ class Heap<T: Comparable> {
 }
 
 // Public methods
-extension Heap {
+extension PriorityQueue {
     
-    func insert(_ item: T) {
+    func insert(_ item: GridItem) {
         items.append(item)
         shiftUp(from: size - 1)
     }
     
-    func insert(_ items: [T]) {
+    func insert(_ items: [GridItem]) {
         items.forEach { insert($0) }
     }
     
-    func peek() throws -> T {
+    func peek() throws -> GridItem {
         guard let item = items.first else {
-            throw HeapError.emptyHeap
+            throw CollectionError.emptyCollection
         }
         
         return item
     }
     
-    func pop() throws -> T {
-        guard !isEmpty else { throw HeapError.emptyHeap }
+    func pop() throws -> GridItem {
+        guard !isEmpty else { throw CollectionError.emptyCollection }
         
         // Replace first item with last item in heap
         swap(0, size - 1)
@@ -159,7 +155,7 @@ extension Heap {
         return item
     }
 
-    func contains(_ item: T) -> Bool {
+    func contains(_ item: GridItem) -> Bool {
         items.contains(item)
     }
     
@@ -172,3 +168,4 @@ extension Heap {
     }
     
 }
+

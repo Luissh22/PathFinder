@@ -13,7 +13,6 @@ struct ButtonConfig {
 }
 
 struct ToolBarView: View {
-    
     let buttons: [ButtonConfig]
     
     var body: some View {

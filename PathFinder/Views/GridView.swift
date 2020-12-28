@@ -14,13 +14,20 @@ struct GridView: View {
         case none, drawing, removing
     }
     
-    @StateObject var grid = Grid()
+    @State private var menuLabel = "Algorithms"
+    @StateObject private var grid = Grid(algorithm: Algorithm.BreadthFirstSearch)
+    
     @State private var drawingMode = DrawingMode.none
     let gridItemSize: CGFloat = 40
     
     var body: some View {
         VStack {
-            ToolBarView(buttons: toolbarButtons)
+            HStack {
+                Menu(menuLabel) {
+                    ToolBarView(buttons: menuButtons)
+                }
+                ToolBarView(buttons: toolbarButtons)
+            }
             VStack(spacing: 0) {
                 ForEach(0..<grid.rowSize) { row in
                     HStack(spacing: 0) {
@@ -43,14 +50,18 @@ struct GridView: View {
             }
             .gesture(dragGesture)
         }
+        .alert(isPresented: $grid.noRouteFound) {
+            Alert(title: Text("No Route Found"), message: Text("Please try again"), dismissButton: .default(Text("OK")))
+        }
     }
     
     private func textColor(for item: GridItem) -> Color {
-        if grid.color(for: item) == .white {
+        let gridColor = grid.color(for: item)
+        if gridColor == .white || gridColor == .yellow {
             return .black
         }
         
-        return .primary
+        return .white
     }
     
     private var toolbarButtons: [ButtonConfig] {
@@ -63,6 +74,32 @@ struct GridView: View {
                 }
             },
             ButtonConfig(label: "Randomize Walls", action: grid.randomizeWalls)
+        ]
+    }
+    
+    private var menuButtons: [ButtonConfig] {
+        
+        [
+            ButtonConfig(label: Algorithm.Dijkstras.label, action: {
+                grid.clear()
+                grid.setPathFinder(for: .Dijkstras)
+                menuLabel = Algorithm.Dijkstras.label
+            }),
+            ButtonConfig(label: Algorithm.BreadthFirstSearch.label, action: {
+                grid.clear()
+                grid.setPathFinder(for: .BreadthFirstSearch)
+                menuLabel = Algorithm.BreadthFirstSearch.label
+            }),
+            ButtonConfig(label: Algorithm.DepthFirstSearch.label, action: {
+                grid.clear()
+                grid.setPathFinder(for: .DepthFirstSearch)
+                menuLabel = Algorithm.DepthFirstSearch.label
+            }),
+            ButtonConfig(label: Algorithm.AStar.label, action: {
+                grid.clear()
+                grid.setPathFinder(for: .AStar)
+                menuLabel = Algorithm.AStar.label
+            }),
         ]
     }
     

@@ -11,20 +11,38 @@ import SwiftUI
 class Grid: ObservableObject {
     static let defaultSize = 20
     
+    var noRouteFound: Bool = false
+    
+    let factory = PathFinderFactory()
     var gridItems: [[GridItem]]
     var start: GridItem
     let end: GridItem
     let rowSize: Int
     let colSize: Int
-    
-    var queuedItems: Heap<GridItem> = Heap(sortCriteria: <)
-    var checkedItems = [GridItem]()
-    var path = [GridItem]()
+    let traverseDiagonals: Bool
     
     var timer: Cancellable?
     
+    var pathFinder: PathFinder
+    
     init(rowSize: Int = defaultSize,
-         colSize: Int = defaultSize) {
+         colSize: Int = defaultSize,
+         traverseDiagonals: Bool = true,
+         algorithm: Algorithm) {
+        self.rowSize = rowSize
+        self.colSize = colSize
+        self.traverseDiagonals = traverseDiagonals
+        self.gridItems = Grid.makeGrid(rowSize: rowSize, colSize: colSize)
+        self.start = gridItems[1][1]
+        self.end = gridItems[rowSize - 2][colSize - 2]
+        self.pathFinder = try! factory.newPathFinder(for: algorithm)
+    }
+    
+    func setPathFinder(for algorithm: Algorithm) {
+        self.pathFinder = try! factory.newPathFinder(for: algorithm)
+    }
+    
+    private static func makeGrid(rowSize: Int, colSize: Int) -> [[GridItem]] {
         var grid = [[GridItem]]()
         
         for row in 0..<rowSize {
@@ -36,30 +54,7 @@ class Grid: ObservableObject {
             grid.append(cols)
         }
         
-        self.rowSize = rowSize
-        self.colSize = colSize
-        gridItems = grid
-        start = grid[1][1]
-        end = grid[rowSize - 2][colSize - 2]
-    }
-    
-    func randomizeWalls() {
-        clear()
-
-        for row in gridItems {
-            for col in row {
-                if col == start { continue }
-                if col == end { continue }
-                col.isWall = true
-            }
-        }
-
-        for _ in 1...250 {
-            let randomRow = Int.random(in: 0..<rowSize)
-            let randomCol = Int.random(in: 0..<colSize)
-            gridItems[randomRow][randomCol].isWall = false
-        }
-        route()
+        return grid
     }
     
     func color(for gridItem: GridItem) -> Color {
@@ -75,84 +70,24 @@ class Grid: ObservableObject {
             return Color.black
         }
         
-        if path.contains(gridItem) {
-            return .white
+        if pathFinder.path.contains(gridItem) {
+            return .yellow
         }
         
-        if queuedItems.contains(gridItem) {
-            return .orange
+        if pathFinder.queuedItems.contains(gridItem) {
+            return .purple
         }
+        
+        if pathFinder.checkedItems.contains(gridItem) {
+            return Color(.sRGB, red: 99/255, green: 172/255, blue: 229/255, opacity: 1)
+        }
+        
+        return Color.white
+    }
+}
 
-        if checkedItems.contains(gridItem) {
-            return Color.orange.opacity(0.5)
-        }
-
-        return Color.gray
-    }
-    
-    func clear() {
-        timer?.cancel()
-        objectWillChange.send()
-        queuedItems.removeAll()
-        checkedItems.removeAll()
-        path.removeAll()
-        
-        for row in gridItems {
-            for col in row {
-                col.cost = GridItem.defaultCost
-            }
-        }
-    }
-    
-    func route() {
-        clear()
-        
-        queuedItems.insert(start)
-        start.cost = 0
-        
-        timer = DispatchQueue.main.schedule(after: .init(.now()), interval: 0.01, stepRoute)
-        
-    }
-    
-    func stepRoute() {
-        objectWillChange.send()
-        
-        do {
-            let item = try queuedItems.pop()
-            checkedItems.append(item)
-
-            if item == end {
-                selectRoute()
-                return
-            }
-
-            findNextItems(from: item)
-
-            if queuedItems.isEmpty {
-                // we're done searching for items
-                selectRoute()
-            }
-        } catch {
-            print(error)
-        }
-    }
-    
-    func findNextItems(from item: GridItem) {
-        let itemsToCheck = neighbours(for: item)
-        
-        for itemToCheck in itemsToCheck {
-            guard !itemToCheck.isWall else { continue }
-        
-            if shouldCheckItem(itemToCheck, fromCurrentItem: item) {
-                itemToCheck.cost = item.cost + 1
-                queuedItems.insert(itemToCheck)
-            }
-        }
-    }
-    
-    func shouldCheckItem(_ item: GridItem, fromCurrentItem currentItem: GridItem) -> Bool {
-        item.cost == -1 || currentItem.cost + 1 < currentItem.cost
-    }
+// MARK: - Grid specific methods
+extension Grid {
     
     func addWall(to gridItem: GridItem) {
         guard gridItem != start && gridItem != end else { return }
@@ -161,7 +96,7 @@ class Grid: ObservableObject {
     
     private func addWall(to row: Int, col: Int) {
         guard !gridItems[row][col].isWall else { return }
-
+        
         objectWillChange.send()
         gridItems[row][col].isWall = true
     }
@@ -212,58 +147,118 @@ class Grid: ObservableObject {
             neighbours.append(gridItems[row][col + 1])
         }
         
-        if row > 0 {
-            // Upper left diagonal
-            if col > 0 {
-                neighbours.append(gridItems[row - 1][col - 1])
+        if traverseDiagonals {
+            
+            if row > 0 {
+                // Upper left diagonal
+                if col > 0 {
+                    neighbours.append(gridItems[row - 1][col - 1])
+                }
+                
+                // Upper right diagonal
+                if col < colSize - 1 {
+                    neighbours.append(gridItems[row - 1][col + 1])
+                }
             }
             
-            // Upper right diagonal
-            if col < colSize - 1 {
-                neighbours.append(gridItems[row - 1][col + 1])
-            }
-        }
-        
-        if row < rowSize - 1 {
-            // Lower left diagonal
-            if col > 0 {
-                neighbours.append(gridItems[row + 1][col - 1])
-            }
-            
-            // Lower right diagonal
-            if col < colSize - 1 {
-                neighbours.append(gridItems[row + 1][col + 1])
+            if row < rowSize - 1 {
+                // Lower left diagonal
+                if col > 0 {
+                    neighbours.append(gridItems[row + 1][col - 1])
+                }
+                
+                // Lower right diagonal
+                if col < colSize - 1 {
+                    neighbours.append(gridItems[row + 1][col + 1])
+                }
             }
         }
         
         return neighbours
     }
     
-    func selectRoute() {
-        timer?.cancel()
-        objectWillChange.send()
-        guard end.cost != GridItem.defaultCost else {
-            print("No route found")
-            return
-        }
+    func randomizeWalls() {
+        clear()
         
-        path.append(end)
-        
-        var current = end
-        
-        while current != start {
-            for neighbour in neighbours(for: current) {
-                // Make sure we have scanned this neighbour
-                guard neighbour.cost != GridItem.defaultCost else { continue }
-                
-                if current.cost > neighbour.cost {
-                    // Part of the path
-                    path.append(neighbour)
-                    current = neighbour
-                    break
-                }
+        for row in gridItems {
+            for col in row {
+                if col == start { continue }
+                if col == end { continue }
+                col.isWall = true
             }
         }
         
+        for _ in 1...400 {
+            let randomRow = Int.random(in: 0..<rowSize)
+            let randomCol = Int.random(in: 0..<colSize)
+            gridItems[randomRow][randomCol].isWall = false
+        }
+        route()
+    }
+    
+    
+    func clear() {
+        timer?.cancel()
+        objectWillChange.send()
+        pathFinder.reset()
+        
+        for row in gridItems {
+            for col in row {
+                col.cost = Int.random(in: 1...5)
+//                col.cost = GridItem.defaultCost
+            }
+        }
+    }
+    
+}
+
+// MARK: - Routing methods
+extension Grid {
+    
+    func route() {
+        clear()
+        
+        pathFinder.queuedItems.insert(start)
+        pathFinder.cameFrom[start] = start
+        start.cost = 0
+        pathFinder.costSoFar[start] = start.cost
+        
+        timer = DispatchQueue.main.schedule(after: .init(.now()), interval: 0.01, stepRoute)
+    
+    }
+    
+    private func stepRoute() {
+        objectWillChange.send()
+        
+        do {
+            let item = try pathFinder.queuedItems.pop()
+            
+            
+            if item == end {
+                selectRoute()
+                return
+            }
+            
+            let itemsToCheck = neighbours(for: item)
+        
+            pathFinder.findNextItems(given: item, and: itemsToCheck)
+            
+            if pathFinder.queuedItems.isEmpty {
+                // we're done searching for items
+                selectRoute()
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func selectRoute() {
+        timer?.cancel()
+        objectWillChange.send()
+        guard pathFinder.selectRoute(start: start, end: end) else {
+            print("No Route Found")
+            noRouteFound = true
+            return
+        }
     }
 }

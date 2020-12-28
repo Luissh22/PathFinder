@@ -8,14 +8,14 @@
 import Foundation
 
 class GridItem {
-    
+    var id = UUID()
     static let defaultCost = -1
     
     var row: Int
     var col: Int
     var isWall = false
-    var cost = defaultCost
-    
+    var cost = Int.random(in: 1...5)
+//    var cost = defaultCost
     init(row: Int, col: Int) {
         self.row = row
         self.col = col
@@ -32,5 +32,15 @@ extension GridItem: Equatable {
 extension GridItem: Comparable {
     static func < (lhs: GridItem, rhs: GridItem) -> Bool {
         lhs.cost < rhs.cost
+    }
+}
+
+extension GridItem: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(row)
+        hasher.combine(col)
+        hasher.combine(isWall)
+        hasher.combine(cost)
+        hasher.combine(id)
     }
 }

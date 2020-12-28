@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A08B034925967B14003C7B32 /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B034825967B14003C7B32 /* Heap.swift */; };
+		A08B034925967B14003C7B32 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B034825967B14003C7B32 /* PriorityQueue.swift */; };
+		A08B0352259834EB003C7B32 /* Dijkstra.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B0351259834EB003C7B32 /* Dijkstra.swift */; };
+		A08B035525983C11003C7B32 /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B035425983C11003C7B32 /* PathFinder.swift */; };
+		A08B03582598F2F2003C7B32 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B03572598F2F2003C7B32 /* Collection.swift */; };
+		A08B035C2598FD9D003C7B32 /* CostAgnosticSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B035B2598FD9D003C7B32 /* CostAgnosticSearch.swift */; };
+		A08B03612598FE69003C7B32 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B03602598FE69003C7B32 /* Queue.swift */; };
+		A08B036525996D91003C7B32 /* PathFinderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08B036425996D91003C7B32 /* PathFinderFactory.swift */; };
 		A0D00BBF25950DEE003BC217 /* PathFinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */; };
 		A0D00BC125950DEE003BC217 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D00BC025950DEE003BC217 /* ContentView.swift */; };
 		A0D00BC325950DF0003BC217 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D00BC225950DF0003BC217 /* Assets.xcassets */; };
@@ -19,7 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A08B034825967B14003C7B32 /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
+		A08B034825967B14003C7B32 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
+		A08B0351259834EB003C7B32 /* Dijkstra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dijkstra.swift; sourceTree = "<group>"; };
+		A08B035425983C11003C7B32 /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
+		A08B03572598F2F2003C7B32 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		A08B035B2598FD9D003C7B32 /* CostAgnosticSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostAgnosticSearch.swift; sourceTree = "<group>"; };
+		A08B03602598FE69003C7B32 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		A08B036425996D91003C7B32 /* PathFinderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinderFactory.swift; sourceTree = "<group>"; };
 		A0D00BBB25950DEE003BC217 /* PathFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PathFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinderApp.swift; sourceTree = "<group>"; };
 		A0D00BC025950DEE003BC217 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,17 +56,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A08B0342259577A2003C7B32 /* Algorithms */ = {
+		A08B0342259577A2003C7B32 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				A08B0351259834EB003C7B32 /* Dijkstra.swift */,
+				A08B035425983C11003C7B32 /* PathFinder.swift */,
+				A08B035B2598FD9D003C7B32 /* CostAgnosticSearch.swift */,
+				A08B036425996D91003C7B32 /* PathFinderFactory.swift */,
 			);
-			path = Algorithms;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		A08B034725967B07003C7B32 /* Data Structures */ = {
 			isa = PBXGroup;
 			children = (
-				A08B034825967B14003C7B32 /* Heap.swift */,
+				A08B034825967B14003C7B32 /* PriorityQueue.swift */,
+				A08B03572598F2F2003C7B32 /* Collection.swift */,
+				A08B03602598FE69003C7B32 /* Queue.swift */,
 			);
 			path = "Data Structures";
 			sourceTree = "<group>";
@@ -79,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				A08B034725967B07003C7B32 /* Data Structures */,
-				A08B0342259577A2003C7B32 /* Algorithms */,
+				A08B0342259577A2003C7B32 /* Search */,
 				A0D00BD62595100F003BC217 /* Models */,
 				A0D00BCF25950E93003BC217 /* Views */,
 				A0D00BBE25950DEE003BC217 /* PathFinderApp.swift */,
@@ -189,11 +207,17 @@
 			files = (
 				A0D00BC125950DEE003BC217 /* ContentView.swift in Sources */,
 				A0D00BD125950E9E003BC217 /* GridView.swift in Sources */,
+				A08B035525983C11003C7B32 /* PathFinder.swift in Sources */,
 				A0D00BD825951023003BC217 /* GridItem.swift in Sources */,
-				A08B034925967B14003C7B32 /* Heap.swift in Sources */,
+				A08B036525996D91003C7B32 /* PathFinderFactory.swift in Sources */,
+				A08B0352259834EB003C7B32 /* Dijkstra.swift in Sources */,
+				A08B03582598F2F2003C7B32 /* Collection.swift in Sources */,
+				A08B034925967B14003C7B32 /* PriorityQueue.swift in Sources */,
+				A08B03612598FE69003C7B32 /* Queue.swift in Sources */,
 				A0D00BD425950EA7003BC217 /* ToolBarView.swift in Sources */,
 				A0D00BBF25950DEE003BC217 /* PathFinderApp.swift in Sources */,
 				A0D00BDB2595102A003BC217 /* Grid.swift in Sources */,
+				A08B035C2598FD9D003C7B32 /* CostAgnosticSearch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
