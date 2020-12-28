@@ -11,10 +11,10 @@ import Combine
 struct GridView: View {
     
     enum DrawingMode {
-        case none, drawing, removing
+        case none, drawing, removing, newStart, newEnd
     }
     
-    @State private var menuLabel = "Algorithms"
+    @State private var menuLabel = Algorithm.BreadthFirstSearch.label
     @StateObject private var grid = Grid(algorithm: Algorithm.BreadthFirstSearch)
     
     @State private var drawingMode = DrawingMode.none
@@ -119,16 +119,32 @@ struct GridView: View {
                 
                 let gridItem = grid.gridItems[row][col]
                 
+                if gridItem == grid.start {
+                    drawingMode = .newStart
+                }
+                
+                if gridItem == grid.end {
+                    drawingMode = .newEnd
+                }
+                
                 // Not currently drawing
                 if drawingMode == .none {
                     drawingMode = gridItem.isWall ? .removing : .drawing
                 }
                 
-                if drawingMode == .drawing {
+                switch drawingMode {
+                case .drawing:
                     grid.addWall(to: gridItem)
-                } else {
+                case .removing:
                     grid.removeWall(for: gridItem)
+                case .newStart:
+                    grid.makeNewStart(gridItem)
+                case .newEnd:
+                    grid.makeNewEnd(gridItem)
+                case .none:
+                    break
                 }
+
             }
             .onEnded { _ in
                 drawingMode = .none

@@ -26,6 +26,7 @@ class GreedyBestFirstSearch: PathFinder {
             if shouldCheckItem(itemToCheck, fromCurrentItem: currentItem, potentialCost: newCost) {
                 itemToCheck.cost = newCost
                 itemToCheck.priority = ManhattanDistance.distance(a: itemToCheck, b: goal)
+                
                 costSoFar.updateValue(newCost, forKey: itemToCheck)
                 queuedItems.insert(itemToCheck)
                 checkedItems.insert(itemToCheck)

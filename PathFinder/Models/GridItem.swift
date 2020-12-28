@@ -9,14 +9,14 @@ import Foundation
 
 class GridItem {
     var id = UUID()
-    static let defaultCost = -1
+    static let defaultCost = 1
     
     var row: Int
     var col: Int
     var isWall = false
-    var cost = Int.random(in: 1...5)
+//    var cost = Int.random(in: 1...5)
     var priority = 0
-//    var cost = defaultCost
+    var cost = defaultCost
     init(row: Int, col: Int) {
         self.row = row
         self.col = col

@@ -16,7 +16,7 @@ class Grid: ObservableObject {
     let factory = PathFinderFactory()
     var gridItems: [[GridItem]]
     var start: GridItem
-    let end: GridItem
+    var end: GridItem
     let rowSize: Int
     let colSize: Int
     let traverseDiagonals: Bool
@@ -27,7 +27,7 @@ class Grid: ObservableObject {
     
     init(rowSize: Int = defaultSize,
          colSize: Int = defaultSize,
-         traverseDiagonals: Bool = true,
+         traverseDiagonals: Bool = false,
          algorithm: Algorithm) {
         self.rowSize = rowSize
         self.colSize = colSize
@@ -88,6 +88,16 @@ class Grid: ObservableObject {
 
 // MARK: - Grid specific methods
 extension Grid {
+    
+    func makeNewStart(_ gridItem: GridItem) {
+        objectWillChange.send()
+        start = gridItem
+    }
+    
+    func makeNewEnd(_ gridItem: GridItem) {
+        objectWillChange.send()
+        end = gridItem
+    }
     
     func addWall(to gridItem: GridItem) {
         guard gridItem != start && gridItem != end else { return }
@@ -204,8 +214,8 @@ extension Grid {
         
         for row in gridItems {
             for col in row {
-                col.cost = Int.random(in: 1...5)
-//                col.cost = GridItem.defaultCost
+//                col.cost = Int.random(in: 1...5)
+                col.cost = GridItem.defaultCost
             }
         }
     }
